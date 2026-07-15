@@ -1,12 +1,7 @@
 ################################################################################
-FROM ubuntu
+FROM ubuntu:26.04
 
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
-RUN apt-get install -y make
-#git ruby ruby-dev bison g++-mingw-w64-x86-64 autotools-dev automake libtool premake4 cmake
-#make
-RUN apt-get install -y sudo
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y upgrade && apt-get install -y tzdata make sudo p7zip-full
 
 #Build dependencies 
 COPY ./version.txt /z/
@@ -15,5 +10,5 @@ COPY ./Install-deps.mk /z/
 COPY ./Makefile.windows.mk /z/
 COPY ./z/windows-build.cmake /z/z/
 
-WORKDIR z
+WORKDIR /z
 RUN  make -f Makefile.windows.mk install_deps
